@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   build:
-    executor: default
+    executor: windows/default
     shell: powershell.exe
     steps:
       - checkout
@@ -20,7 +20,7 @@ jobs:
             - ./
 
   test:
-    executor: default
+    executor: windows/default
     shell: powershell.exe
     steps:
       - run:
