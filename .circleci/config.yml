@@ -5,8 +5,9 @@ orbs:
 
 jobs:
   build:
-    executor: windows/default
-    shell: powershell.exe
+    executor:
+      name: windows/default
+      shell: powershell
     steps:
       - checkout
       - run:
@@ -20,8 +21,9 @@ jobs:
             - ./
 
   test:
-    executor: windows/default
-    shell: powershell.exe
+    executor:
+      name: windows/default
+      shell: powershell
     steps:
       - run:
           name: Start WPR
