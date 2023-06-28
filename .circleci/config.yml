@@ -31,9 +31,9 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Run normally with 4 GiB RAM consumption
+          name: Run normally with 8 GiB RAM consumption
           command: |
-            .\HelloVCExe.exe 4096
+            .\HelloVCExe.exe 8192
       - run:
           name: Run native unit tests
           command: |
