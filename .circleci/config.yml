@@ -1,11 +1,13 @@
-version: 2
+version: 2.1
+
+orbs:
+  windows: circleci/windows@5.0.0 
 
 jobs:
   build:
-    machine:
-      image: windows-server-2019-vs2019:stable
-    shell: powershell.exe
-    resource_class: windows.medium
+    executor:
+      name: windows/default
+      shell: powershell
     steps:
       - checkout
       - run:
@@ -19,10 +21,9 @@ jobs:
             - ./
 
   test:
-    machine:
-      image: windows-server-2019-vs2019:stable
-    shell: powershell.exe
-    resource_class: windows.medium
+    executor:
+      name: windows/default
+      shell: powershell
     steps:
       - run:
           name: Start WPR
@@ -30,13 +31,14 @@ jobs:
       - attach_workspace:
           at: ./
       - run:
-          name: Run normally with 4 GiB RAM consumption
+          name: Run normally with 8 GiB RAM consumption
           command: |
-            .\HelloVCExe.exe 4096
+            .\HelloVCExe.exe 8192
       - run:
           name: Run native unit tests
           command: |
-            & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" .\HelloVCTest.dll /InIsolation /platform:x64
+            # Path to VS2022 version of vsteset
+            & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" .\HelloVCTest.dll /InIsolation /platform:x64
       - run:
           name: Stop WPR
           command: wpr -stop wpr.etl
@@ -45,8 +47,6 @@ jobs:
           path: wpr.etl
 
 workflows:
-  version: 2
-
   build-and-test:
     jobs:
       - build

@@ -4,20 +4,20 @@ Demonstration of automatic build-and-test for Windows applications using MSBuild
 
 **Note**: This is for our cloud service https://circleci.com/. For use in CircleCI Server (the "on-premises" version of CircleCI), please refer to [`HelloVCSuite-Server`](https://github.com/CircleCI-Public/HelloVCSuite-Server).
 
-# Quick start
+## Quick start
 
-Fork this repository and setup a CircleCI project for your own copy.
+Fork this repository and set up a CircleCI project for your own copy.
 
-## Artifacts
+### Artifacts
 
 The CircleCI workflow defined in `.circleci/config.yml` yields two artifacts:
 
 * `HelloVCExe.exe` from `build` job: Consolidated executable - it will fill specified amount of RAM twice and then say `Hello world!`
-* `wpr.etl` from `test` job: ETW log by WPR for tests
+* `wpr.etl` from `test` job: ETW log by [Windows Performance Recorder](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-recorder) for tests
 
-# Deep dive
+## Deep dive
 
-## Codebase architecture
+### Codebase architecture
 
 This "suite" consists of three parts.
 
@@ -25,8 +25,14 @@ This "suite" consists of three parts.
 * `HelloVCExe`: A wrapper to create an executable `.exe` file.
 * `HelloVCTest`: Unit tests for `HelloVC`.
 
-The core logic and a wrapper executable are separated because unit tests cannot be applied on an executable file. Keeping the wrapper (`HelloVCExe` for this example) as simple as possible will enhance trustworthiness of test results. Additional E2E tests agains a generated `.exe` file is also a good idea.
+The core logic and a wrapper executable are separated because unit tests cannot be applied on an executable file. Keeping the wrapper (`HelloVCExe` for this example) as simple as possible will enhance trustworthiness of test results. Additional E2E tests against a generated `.exe` file is also a good idea.
 
-## Have your own code on it!
+### Have your own code on it
 
-Open `HelloVCSuite.sln` with your Visual Studio (the full-featured ones, not VSCode), and the rest will be taken care by VS. At the time of this writing the solution is tested with VS2019.
+Open `HelloVCSuite.sln` with your Visual Studio (the full-featured ones, not VSCode), and the rest will be taken care by VS. At the time of this writing the solution is tested with VS2019 and VS2022
+
+## Useful Links
+
+* [VSTest.Console.exe](https://learn.microsoft.com/en-us/visualstudio/test/vstest-console-options?view=vs-2022) command line options
+* [CircleCI Windows Orb](https://circleci.com/developer/orbs/orb/circleci/windows)
+* [CircleCI Windows Executors](https://circleci.com/docs/using-windows/)
